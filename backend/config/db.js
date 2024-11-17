@@ -1,15 +1,21 @@
 const mongoose = require('mongoose');
 
-const connetDb = async () => {
+// Set Mongoose strictQuery option
+mongoose.set('strictQuery', true); // or false, based on your preference
 
-    try {
-        const conn = await mongoose.connect(process.env.MONGO_URI);
-        console.log(`Mongodb Connected: ${conn.connection.host}`);
-    }
-    catch (error) {
-        console.log(error);
-        process.exit(1);
-    }
-}
+// Connect to MongoDB
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+    process.exit(1); // Exit process with failure
+  }
+};
 
-module.exports = connetDb;
+// Call the function to connect
+connectDB();
